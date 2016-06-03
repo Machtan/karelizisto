@@ -1,0 +1,10 @@
+[package]
+authors = ["Machtan <jako3047@gmail.com>"]
+name = "karelizisto"
+version = "0.1.0"
+
+[dependencies]
+argonaut = "0.11.0"
+
+[dependencies.space-toml]
+path = "../space-toml"

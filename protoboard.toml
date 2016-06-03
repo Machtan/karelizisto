@@ -1,0 +1,10 @@
+layers = ["terrain", "units"]
+prefix = "../protoboard/assets"
+
+[tiles]
+protector = "shield.png"
+archer = "bow.png"
+warrior = "sword.png"
+raccoon = "raccoon.png"
+
+mountains = "mountains.png"
