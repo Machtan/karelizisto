@@ -3,16 +3,15 @@ extern crate sdl2_image;
 extern crate sdl2_ttf;
 extern crate space_toml;
 
-use super::common::{State, Message};
-use glorious::{BoxedInputMapper, Game, Renderer, ResourceManager};
-use sdl2::render::Texture;
+use common::{State, Message};
+use glorious::{BoxedInputMapper, Device, Game, Renderer, ResourceManager};
+use sdl2::render::{BlendMode};
 use sdl2::keyboard::{Keycode, Scancode};
 use sdl2::mouse::Mouse;
 use sdl2_image::{INIT_JPG, INIT_PNG};
-use std::rc::Rc;
-use super::editor::Editor;
+use editor::Editor;
 
-pub fn start_editor(schema_path: &str, load_from: Option<&str>, save_to: Option<&str>) {
+pub fn start_editor() {
     use sdl2::event::Event::*;
     use super::common::Message::*;
     
@@ -45,16 +44,18 @@ pub fn start_editor(schema_path: &str, load_from: Option<&str>, save_to: Option<
     let (w, h) = window.size();
     let (pw, ph) = window.drawable_size();
     let mut renderer = window.renderer().build().unwrap();
+    renderer.set_blend_mode(BlendMode::Blend);
     let _ = renderer.set_logical_size(w, h);
-
-    let renderer = Renderer::new(renderer);
-    let resources = ResourceManager::new(renderer.clone(), Rc::new(font_context));
-
+    
+    let device = Device::new(renderer);
+    let renderer = device.create_renderer();
+    let resources = ResourceManager::new(&device, &font_context);
+    
     // Load units
 
     // Set up game state.
 
-    let mut state = State::new();
+    let mut state = State::new(resources);
 
     // Prepare the scene
     let layers = (&["Test 1", "Test 2"]).iter().map(|l| l.to_string()).collect();

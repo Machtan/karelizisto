@@ -21,6 +21,6 @@ impl Editor {
     }
 }
 
-impl Behavior<State> for Editor {
+impl<'a> Behavior<State<'a>> for Editor {
     type Message = Message;
 }

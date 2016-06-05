@@ -4,11 +4,11 @@ name = "karelizisto"
 version = "0.1.0"
 
 [dependencies]
-argonaut = "0.11.0"
-sdl2 = "0.19.0"
-sdl2_image = "0.19.0"
-sdl2_ttf = "0.19.0"
-glorious = { git = "https://github.com/Machtan/glorious", branch = "device" }
+argonaut = "0.11"
+sdl2 = "0.19"
+sdl2_image = "0.19"
+sdl2_ttf = "0.19"
+glorious = { git = "https://github.com/Machtan/glorious" }
 
 [dependencies.space-toml]
 path = "../space-toml"

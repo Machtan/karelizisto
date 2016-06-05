@@ -1,3 +1,6 @@
+extern crate glorious;
+
+use glorious::ResourceManager;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Message {
@@ -14,12 +17,14 @@ pub enum Message {
     MouseMovedTo(i32, i32),
 }
 
-pub struct State {
-    test: bool,
+pub struct State<'a> {
+    resources: ResourceManager<'a, 'static>,
 }
 
-impl State {
-    pub fn new() -> State {
-        State { test: false }
+impl<'a> State<'a> {
+    pub fn new(resources: ResourceManager<'a, 'static>) -> State<'a> {
+        State { 
+            resources: resources
+        }
     }
 }

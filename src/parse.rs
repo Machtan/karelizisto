@@ -1,8 +1,8 @@
 extern crate argonaut;
+extern crate space_toml;
 
 use std::env;
 use argonaut::{ArgDef, Parse};
-use space_toml::TomlValue;
 use std::fs::File;
 use std::io::Read;
 
@@ -21,7 +21,7 @@ Optional arguments:
     --edit PATH         The same as --load PATH --save PATH.
 ";
 
-pub fn parse() -> (&str, Option<&str>, Option<&str>){
+pub fn parse<F>(continuation: F) where F: FnOnce(&str, Option<&str>, Option<&str>) {
     use argonaut::Arg::*;
 
     // Create the arguments
@@ -90,10 +90,10 @@ pub fn parse() -> (&str, Option<&str>, Option<&str>){
         save = Some(path);
     }
     
-    (schema, load, save)
+    continuation(schema, load, save)
 }
 
-fn read_options(schema_path: &str, load_from: Option<&str>, save_to: Option<&str>) {
+pub fn read_options(schema_path: &str, load_from: Option<&str>, save_to: Option<&str>) {
     // Load the schema file
     let mut file = match File::open(schema_path) {
         Ok(file) => file,

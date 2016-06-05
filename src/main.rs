@@ -6,7 +6,7 @@ extern crate glorious;
 extern crate sdl2;
 extern crate sdl2_image;
 
-mod parser;
+mod parse;
 mod common;
 mod level;
 mod toolbox;
@@ -14,6 +14,12 @@ mod grid;
 mod editor;
 mod launch;
 
+use parse::{parse, read_options};
+use launch::{start_editor};
+
 fn main() {
-    
+    parse(|schema, load_from, save_to| {
+        read_options(schema, load_from, save_to);
+        start_editor();
+    });
 }

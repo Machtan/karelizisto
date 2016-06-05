@@ -3,7 +3,7 @@ name = "karelizisto"
 version = "0.1.0"
 dependencies = [
  "argonaut 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "glorious 0.2.0 (git+https://github.com/Machtan/glorious?branch=device)",
+ "glorious 0.2.0 (git+https://github.com/Machtan/glorious)",
  "sdl2 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_image 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_ttf 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -28,7 +28,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "glorious"
 version = "0.2.0"
-source = "git+https://github.com/Machtan/glorious?branch=device#0ef92a3127008118ec9b2d43fb7739e7da72a084"
+source = "git+https://github.com/Machtan/glorious#77fc39283ea5e21b3336504d0a5975c2f394af27"
 dependencies = [
  "ref_filter_map 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
