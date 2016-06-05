@@ -1,21 +1,25 @@
 extern crate sdl2;
 extern crate sdl2_image;
 extern crate sdl2_ttf;
+extern crate space_toml;
 
-use common::State;
+use super::common::{State, Message};
 use glorious::{BoxedInputMapper, Game, Renderer, ResourceManager};
 use sdl2::render::Texture;
 use sdl2::keyboard::{Keycode, Scancode};
 use sdl2::mouse::Mouse;
 use sdl2_image::{INIT_JPG, INIT_PNG};
 use std::rc::Rc;
-use editor::Editor;
+use super::editor::Editor;
 
-pub fn start_editor(schema: &str, load_from: Option<&str>, save_to: Option<&str>) {
-    println!("START!");
+pub fn start_editor(schema_path: &str, load_from: Option<&str>, save_to: Option<&str>) {
     use sdl2::event::Event::*;
-    use common::Message::*;
-
+    use super::common::Message::*;
+    
+    println!("START!");
+    
+    
+    
     // Load settings
 
     const WINDOW_TITLE: &'static str = "La bonega karelizisto";

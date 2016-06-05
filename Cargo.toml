@@ -9,6 +9,7 @@ sdl2 = "0.19.0"
 sdl2_image = "0.19.0"
 sdl2_ttf = "0.19.0"
 glorious = { git = "https://github.com/Machtan/glorious" }
+ui = { path = "../libui-rs/ui" }
 
 [dependencies.space-toml]
 path = "../space-toml"

@@ -1,3 +1,4 @@
+name = "protoboard"
 layers = ["terrain", "units"]
 prefix = "../protoboard/assets"
 

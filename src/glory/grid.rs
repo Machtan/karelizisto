@@ -1,6 +1,3 @@
-
-use common::{Message, State};
-use glorious::Behavior;
 use sdl2::render::Texture;
 use std::collections::HashMap;
 
@@ -20,19 +17,4 @@ impl GridManager {
             contents: contents,
         }
     }
-}
-
-pub struct Editor {
-    grid: GridManager,
-}
-
-impl Editor {
-    pub fn new(layers: Vec<String>, tiles: Vec<(String, String)>) -> Editor {
-        let grid = GridManager::new(layers, tiles);
-        Editor { grid: grid }
-    }
-}
-
-impl Behavior<State> for Editor {
-    type Message = Message;
 }

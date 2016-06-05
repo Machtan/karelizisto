@@ -6,13 +6,14 @@ extern crate glorious;
 extern crate sdl2;
 extern crate sdl2_image;
 
-mod common;
-mod editor;
-mod start;
+mod libui;
 
 use std::env;
 use argonaut::{ArgDef, Parse};
-use start::start_editor;
+use libui::start_editor;
+use space_toml::TomlValue;
+use std::fs::File;
+use std::io::Read;
 
 const USAGE: &'static str = "Usage: cargo run \
     [--help | OPTIONS ] schema";
@@ -98,5 +99,46 @@ fn main() {
         save = Some(path);
     }
 
-    start_editor(schema, load, save);
+    start(schema, load, save);
+}
+
+fn start(schema_path: &str, load_from: Option<&str>, save_to: Option<&str>) {
+    // Load the schema file
+    let mut file = match File::open(schema_path) {
+        Ok(file) => file,
+        Err(e) => {
+            return println!("Could not read schema file at {:?}: {:?}", schema_path, e);
+        }
+    };
+    let mut schema_toml = String::new();
+    file.read_to_string(&mut schema_toml).expect("Could not read schema");
+    let schema = space_toml::parse(&schema_toml).expect("Could not parse TOML");
+    let schema_name = schema.get("name").and_then(|t| t.string()).expect("Invalid name in schema");
+    
+    // Load the level
+    let mut level_toml = String::new();
+    let level_table = if let Some(path) = load_from {
+        let mut file = match File::open(path) {
+            Ok(file) => file,
+            Err(e) => {
+                return println!("Could not read level file at {:?}: {:?}", path, e);
+            }
+        };
+        file.read_to_string(&mut level_toml).expect("Could not read level file");
+        Some(space_toml::parse(&level_toml).expect("Could not parse TOML"))
+    } else {
+        None
+    };
+    if let Some(table) = level_table {
+        if let Some(level_schema) = table.get("schema").and_then(|t| t.string()) {
+            if level_schema != schema_name {
+                return println!("The level isn't valid for this schema");
+            }
+        } else {
+            return println!("No schema specified in the level file");
+        }
+    }
+    
+    
+    libui::start_editor();
 }
