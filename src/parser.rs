@@ -21,7 +21,7 @@ Optional arguments:
     --edit PATH         The same as --load PATH --save PATH.
 ";
 
-fn parse() {
+pub fn parse() -> (&str, Option<&str>, Option<&str>){
     use argonaut::Arg::*;
 
     // Create the arguments
@@ -90,7 +90,7 @@ fn parse() {
         save = Some(path);
     }
     
-    start(schema, load, save);
+    (schema, load, save)
 }
 
 fn read_options(schema_path: &str, load_from: Option<&str>, save_to: Option<&str>) {

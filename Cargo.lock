@@ -3,12 +3,11 @@ name = "karelizisto"
 version = "0.1.0"
 dependencies = [
  "argonaut 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "glorious 0.2.0 (git+https://github.com/Machtan/glorious)",
+ "glorious 0.2.0 (git+https://github.com/Machtan/glorious?branch=device)",
  "sdl2 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_image 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_ttf 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "space-toml 0.1.0",
- "ui 0.1.0",
 ]
 
 [[package]]
@@ -27,15 +26,11 @@ version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "bitflags"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[[package]]
 name = "glorious"
 version = "0.2.0"
-source = "git+https://github.com/Machtan/glorious#d0832d745cfa44019323e6c22c610ad24d342ed1"
+source = "git+https://github.com/Machtan/glorious?branch=device#0ef92a3127008118ec9b2d43fb7739e7da72a084"
 dependencies = [
+ "ref_filter_map 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_image 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_ttf 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -49,11 +44,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "libc"
 version = "0.2.11"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[[package]]
-name = "make-cmd"
-version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -131,6 +121,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "ref_filter_map"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "rustc-serialize"
 version = "0.3.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -179,21 +174,4 @@ dependencies = [
 [[package]]
 name = "space-toml"
 version = "0.1.0"
-
-[[package]]
-name = "ui"
-version = "0.1.0"
-dependencies = [
- "bitflags 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
- "ui-sys 0.1.0",
-]
-
-[[package]]
-name = "ui-sys"
-version = "0.1.0"
-dependencies = [
- "libc 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
- "make-cmd 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
-]
 
