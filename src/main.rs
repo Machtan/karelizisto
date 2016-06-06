@@ -8,6 +8,7 @@ extern crate env_logger;
 #[macro_use]
 extern crate log;
 extern crate serde;
+extern crate serde_json as json;
 extern crate toml;
 
 extern crate argonaut;
@@ -53,7 +54,7 @@ fn main() {
     // Main
 
     let schema = Schema::load("schema.toml").unwrap();
-    let level = Level::load("level.toml").unwrap();
+    let level = Level::load("level.json").unwrap();
     println!("{:#?}", level);
     start_editor(schema);
 }

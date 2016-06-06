@@ -3,10 +3,11 @@ use std::fs::File;
 use std::io::{self, Read};
 use std::path::PathBuf;
 
-use serde::de::Deserialize;
+use json;
+use serde::Deserialize;
 use toml;
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Schema {
     pub name: String,
     pub layers: Vec<String>,
@@ -17,6 +18,7 @@ pub struct Schema {
 #[derive(Debug)]
 pub enum LoadError {
     Read(io::Error),
+    Json(json::Error),
     TomlParse(toml::ParserError),
     TomlDecode(toml::DecodeError),
 }
@@ -32,6 +34,13 @@ impl From<toml::DecodeError> for LoadError {
     #[inline]
     fn from(err: toml::DecodeError) -> LoadError {
         LoadError::TomlDecode(err)
+    }
+}
+
+impl From<json::Error> for LoadError {
+    #[inline]
+    fn from(err: json::Error) -> LoadError {
+        LoadError::Json(err)
     }
 }
 

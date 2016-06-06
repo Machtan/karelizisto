@@ -1,8 +1,0 @@
-name = "test 1"
-schema = "protoboard"
-
-[terrain]
-mountains = [[2, 3], [4, 5]]
-
-[units]
-raccoon = [[2, 3], [4, 4]]

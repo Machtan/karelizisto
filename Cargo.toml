@@ -9,6 +9,7 @@ log = "0.3"
 toml = { version = "0.1", features = ["serde"], default_features = false }
 serde = "0.7"
 serde_macros = "0.7"
+serde_json = "0.7"
 
 argonaut = "0.11"
 sdl2 = "0.19"
