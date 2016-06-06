@@ -1,9 +1,8 @@
-
-use std::path::{Path, PathBuf};
 use std::borrow::Cow;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, Read};
+use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone)]
 pub struct Schema {
@@ -30,7 +29,11 @@ impl From<io::Error> for SchemaLoadError {
 }
 
 impl Schema {
-    pub fn new(name: &str, layers: Vec<String>, prefix: &str, tiles: HashMap<String, String>) -> Schema {
+    pub fn new(name: &str,
+               layers: Vec<String>,
+               prefix: &str,
+               tiles: HashMap<String, String>)
+               -> Schema {
         Schema {
             name: name.to_string(),
             prefix: PathBuf::from(prefix),
@@ -38,22 +41,8 @@ impl Schema {
             tiles: tiles,
         }
     }
-    
+
     pub fn load(path: &Path) -> Result<Schema, SchemaLoadError> {
         unimplemented!();
     }
 }
-/*
-name = "protoboard"
-layers = ["terrain", "units"]
-prefix = "../protoboard/assets"
-
-[tiles]
-protector = "shield.png"
-archer = "bow.png"
-warrior = "sword.png"
-raccoon = "raccoon.png"
-
-mountains = "mountains.png"
-woods = "woods.png"
-*/

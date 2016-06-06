@@ -1,16 +1,14 @@
 
 pub enum Tool {
-    Paint
+    Paint,
 }
 
 pub struct Toolbox {
-    unused: bool
+    unused: bool,
 }
 
 impl Toolbox {
     pub fn new() -> Toolbox {
-        Toolbox {
-            unused: true,
-        }
+        Toolbox { unused: true }
     }
 }

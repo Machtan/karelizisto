@@ -1,5 +1,6 @@
-use sdl2::render::Texture;
 use std::collections::HashMap;
+
+use sdl2::render::Texture;
 
 pub struct GridManager {
     layers: Vec<String>,

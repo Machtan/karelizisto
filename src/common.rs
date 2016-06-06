@@ -1,6 +1,5 @@
-extern crate glorious;
-
 use glorious::ResourceManager;
+
 use toolbox::Tool;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -10,7 +9,7 @@ pub enum Message {
     Left,
     Right,
     Exit,
-    
+
     LeftClickAt(i32, i32),
     LeftReleasedAt(i32, i32),
     RightClickAt(i32, i32),
@@ -25,7 +24,7 @@ pub struct State<'a> {
 
 impl<'a> State<'a> {
     pub fn new(resources: ResourceManager<'a, 'static>) -> State<'a> {
-        State { 
+        State {
             resources: resources,
             current_tool: Tool::Paint,
         }

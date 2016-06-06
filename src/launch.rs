@@ -1,24 +1,20 @@
-extern crate sdl2;
-extern crate sdl2_image;
-extern crate sdl2_ttf;
-extern crate space_toml;
-
-use common::{State, Message};
 use glorious::{BoxedInputMapper, Device, Game, Renderer, ResourceManager};
-use sdl2::render::{BlendMode};
+use sdl2;
+use sdl2::render::BlendMode;
 use sdl2::keyboard::{Keycode, Scancode};
 use sdl2::mouse::Mouse;
-use sdl2_image::{INIT_JPG, INIT_PNG};
+use sdl2_image::{self, INIT_JPG, INIT_PNG};
+use sdl2_ttf;
+
+use common::{Message, State};
 use editor::Editor;
 
 pub fn start_editor() {
     use sdl2::event::Event::*;
     use super::common::Message::*;
-    
+
     println!("START!");
-    
-    
-    
+
     // Load settings
 
     const WINDOW_TITLE: &'static str = "La bonega karelizisto";
@@ -46,11 +42,11 @@ pub fn start_editor() {
     let mut renderer = window.renderer().build().unwrap();
     renderer.set_blend_mode(BlendMode::Blend);
     let _ = renderer.set_logical_size(w, h);
-    
+
     let device = Device::new(renderer);
     let renderer = device.create_renderer();
     let resources = ResourceManager::new(&device, &font_context);
-    
+
     // Load units
 
     // Set up game state.

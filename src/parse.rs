@@ -1,6 +1,3 @@
-extern crate argonaut;
-extern crate space_toml;
-
 use std::env;
 use argonaut::{ArgDef, Parse};
 use std::fs::File;
@@ -21,7 +18,9 @@ Optional arguments:
     --edit PATH         The same as --load PATH --save PATH.
 ";
 
-pub fn parse<F>(continuation: F) where F: FnOnce(&str, Option<&str>, Option<&str>) {
+pub fn parse<F>(continuation: F)
+    where F: FnOnce(&str, Option<&str>, Option<&str>)
+{
     use argonaut::Arg::*;
 
     // Create the arguments
@@ -89,7 +88,7 @@ pub fn parse<F>(continuation: F) where F: FnOnce(&str, Option<&str>, Option<&str
         load = Some(path);
         save = Some(path);
     }
-    
+
     continuation(schema, load, save)
 }
 
@@ -105,7 +104,7 @@ pub fn read_options(schema_path: &str, load_from: Option<&str>, save_to: Option<
     file.read_to_string(&mut schema_toml).expect("Could not read schema");
     let schema = space_toml::parse(&schema_toml).expect("Could not parse TOML");
     let schema_name = schema.get("name").and_then(|t| t.string()).expect("Invalid name in schema");
-    
+
     // Load the level
     let mut level_toml = String::new();
     let level_table = if let Some(path) = load_from {

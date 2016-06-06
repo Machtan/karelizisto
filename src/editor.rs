@@ -1,9 +1,7 @@
-extern crate glorious;
-
-use super::common::{Message, State};
+use common::{Message, State};
 use glorious::Behavior;
-use super::grid::GridManager;
-use super::toolbox::Toolbox;
+use grid::GridManager;
+use toolbox::Toolbox;
 
 pub struct Editor {
     grid: GridManager,
@@ -14,7 +12,7 @@ impl Editor {
     pub fn new(layers: Vec<String>, tiles: Vec<(String, String)>) -> Editor {
         let grid = GridManager::new(layers, tiles);
         let toolbox = Toolbox::new();
-        Editor { 
+        Editor {
             grid: grid,
             toolbox: toolbox,
         }
