@@ -53,5 +53,7 @@ fn main() {
     // Main
 
     let schema = Schema::load("schema.toml").unwrap();
+    let level = Level::load("level.toml").unwrap();
+    println!("{:#?}", level);
     start_editor(schema);
 }
