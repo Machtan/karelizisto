@@ -8,12 +8,13 @@ use sdl2_ttf;
 
 use common::{Message, State};
 use editor::Editor;
+use schema::Schema;
 
-pub fn start_editor() {
+pub fn start_editor(schema: Schema) {
     use sdl2::event::Event::*;
     use super::common::Message::*;
 
-    println!("START!");
+    info!("START!");
 
     // Load settings
 
@@ -45,7 +46,7 @@ pub fn start_editor() {
 
     let device = Device::new(renderer);
     let renderer = device.create_renderer();
-    let resources = ResourceManager::new(&device, &font_context);
+    let resources = ResourceManager::with_prefix(schema.prefix, &device, &font_context);
 
     // Load units
 

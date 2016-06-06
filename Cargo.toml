@@ -4,9 +4,14 @@ name = "karelizisto"
 version = "0.1.0"
 
 [dependencies]
+env_logger = "0.3"
+log = "0.3"
+toml = { version = "0.1", features = ["serde"], default_features = false }
+serde = "0.7"
+serde_macros = "0.7"
+
 argonaut = "0.11"
 sdl2 = "0.19"
 sdl2_image = "0.19"
 sdl2_ttf = "0.19"
-toml = "0.1"
 glorious = { git = "https://github.com/Machtan/glorious" }
