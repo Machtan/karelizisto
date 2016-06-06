@@ -1,5 +1,5 @@
 name = "protoboard"
-layers = ["terrain", "units"]
+layers = ["terrain", "units_blue", "units_red"]
 prefix = "../protoboard/assets"
 
 [tiles]
