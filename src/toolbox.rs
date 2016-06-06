@@ -1,4 +1,8 @@
 
+pub enum Tool {
+    Paint
+}
+
 pub struct Toolbox {
     unused: bool
 }
