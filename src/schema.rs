@@ -75,7 +75,7 @@ impl Schema {
 
         let mut schema = Schema::deserialize(&mut decoder)?;
         if let Some(rest) = decoder.toml {
-            for (key, _) in rest.as_table().unwrap() {
+            for key in rest.as_table().unwrap().keys() {
                 warn!("ignoring key {:?} in schema", key);
             }
         }

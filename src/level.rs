@@ -1,13 +1,10 @@
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::File;
 use std::path::Path;
 
 use json;
-use serde::{Deserialize, Serialize};
 
-pub use schema::LoadError;
-
-pub type Layer = BTreeMap<String, Vec<(u32, u32)>>;
+pub type Layer = BTreeMap<String, BTreeSet<(i32, i32)>>;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Level {
@@ -18,9 +15,16 @@ pub struct Level {
 
 impl Level {
     #[inline]
-    pub fn load<P>(path: P) -> Result<Level, LoadError>
+    pub fn load<P>(path: P) -> Result<Level, json::Error>
         where P: AsRef<Path>
     {
-        Ok(json::from_reader(File::open(path)?)?)
+        json::from_reader(File::open(path)?)
+    }
+
+    #[inline]
+    pub fn save<P>(&self, path: P) -> Result<(), json::Error>
+        where P: AsRef<Path>
+    {
+        json::to_writer(&mut File::create(path)?, self)
     }
 }

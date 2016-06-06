@@ -26,7 +26,6 @@ use schema::Schema;
 
 mod common;
 mod editor;
-mod grid;
 mod launch;
 mod level;
 mod schema;
@@ -54,7 +53,8 @@ fn main() {
     // Main
 
     let schema = Schema::load("schema.toml").unwrap();
-    let level = Level::load("level.json").unwrap();
-    println!("{:#?}", level);
-    start_editor(schema);
+    let level = Level::load("level-output.json").unwrap();
+    assert!(level.schema == schema.name);
+
+    start_editor(schema, level, Some("level-output.json"));
 }

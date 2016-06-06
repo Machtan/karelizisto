@@ -8,7 +8,14 @@ pub enum Message {
     Down,
     Left,
     Right,
+    PreExit,
     Exit,
+
+    NextLayer,
+    PrevLayer,
+    NextTile,
+    PrevTile,
+    Save,
 
     LeftClickAt(i32, i32),
     LeftReleasedAt(i32, i32),
@@ -18,15 +25,11 @@ pub enum Message {
 }
 
 pub struct State<'a> {
-    resources: ResourceManager<'a, 'static>,
-    current_tool: Tool,
+    pub resources: ResourceManager<'a, 'static>,
 }
 
 impl<'a> State<'a> {
     pub fn new(resources: ResourceManager<'a, 'static>) -> State<'a> {
-        State {
-            resources: resources,
-            current_tool: Tool::Paint,
-        }
+        State { resources: resources }
     }
 }

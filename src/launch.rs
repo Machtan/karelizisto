@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use glorious::{BoxedInputMapper, Device, Game, Renderer, ResourceManager};
 use sdl2;
 use sdl2::render::BlendMode;
@@ -8,9 +10,12 @@ use sdl2_ttf;
 
 use common::{Message, State};
 use editor::Editor;
+use level::Level;
 use schema::Schema;
 
-pub fn start_editor(schema: Schema) {
+pub fn start_editor<P>(schema: Schema, level: Level, save_to: Option<P>)
+    where P: Into<PathBuf>
+{
     use sdl2::event::Event::*;
     use super::common::Message::*;
 
@@ -55,23 +60,30 @@ pub fn start_editor(schema: Schema) {
     let mut state = State::new(resources);
 
     // Prepare the scene
-    let layers = (&["Test 1", "Test 2"]).iter().map(|l| l.to_string()).collect();
-    let units = (&[("raccoon", "raccoon.png")])
-        .iter()
-        .map(|&(name, tex)| (name.to_string(), tex.to_string()))
-        .collect();
-    let mut editor = Editor::new(layers, units);
+    let mut editor = Editor::new(schema.layers, schema.tiles, level, save_to);
 
     // Set up input handling.
 
     let mut mapper = BoxedInputMapper::new();
 
-    mapper.add(map_event!(Quit { .. }, Exit));
+    mapper.add(map_event!(Quit { .. }, PreExit));
 
-    mapper.add(map_key_pressed!(Keycode::Up, Up));
-    mapper.add(map_key_pressed!(Keycode::Down, Down));
-    mapper.add(map_key_pressed!(Keycode::Left, Left));
-    mapper.add(map_key_pressed!(Keycode::Right, Right));
+    mapper.add(map_scan_pressed!(Scancode::Up, Up));
+    mapper.add(map_scan_pressed!(Scancode::Left, Left));
+    mapper.add(map_scan_pressed!(Scancode::Down, Down));
+    mapper.add(map_scan_pressed!(Scancode::Right, Right));
+
+    mapper.add(map_scan_pressed!(Scancode::W, Up));
+    mapper.add(map_scan_pressed!(Scancode::A, Left));
+    mapper.add(map_scan_pressed!(Scancode::S, Down));
+    mapper.add(map_scan_pressed!(Scancode::D, Right));
+
+    mapper.add(map_scan_pressed!(Scancode::Z, PrevLayer));
+    mapper.add(map_scan_pressed!(Scancode::X, NextLayer));
+    mapper.add(map_scan_pressed!(Scancode::Q, PrevTile));
+    mapper.add(map_scan_pressed!(Scancode::E, NextTile));
+
+    mapper.add(map_scan_pressed!(Scancode::Return, Save));
 
     mapper.add(map_event!(
          MouseButtonDown { x, y, mouse_btn: Mouse::Left, .. },
