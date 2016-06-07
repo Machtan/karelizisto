@@ -235,6 +235,23 @@ impl<'a> Behavior<State<'a>> for Editor {
     }
 
     fn render(&mut self, state: &State<'a>, renderer: &mut Renderer) {
+        // Render checkerboard pattern
+        for col in 0..100 {
+            for row in 0..100 {
+                let x = col as i32 + self.viewport.model.0;
+                let y = row as i32 + self.viewport.model.1;
+                let model_rect = Rect::new(x, y, 1, 1);
+                let view_rect = self.viewport.model_to_view_rect(model_rect);
+                let color = if (col + row) % 2 == 0 {
+                    Color(200, 200, 200, 255)
+                } else {
+                    Color(220, 220, 220, 255)
+                };
+                renderer.set_draw_color(color);
+                renderer.fill_rect(view_rect).unwrap();
+            }
+        }
+        
         for (i, layer_name) in self.layers[..self.current_layer + 1].iter().enumerate() {
             if i == self.current_layer {
                 renderer.set_draw_color(Color(0xff, 0xff, 0xff, 0x77));
