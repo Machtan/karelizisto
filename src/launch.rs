@@ -1,14 +1,14 @@
 use std::path::PathBuf;
 
-use glorious::{BoxedInputMapper, Device, Game, Renderer, ResourceManager};
+use glorious::{BoxedInputMapper, Device, Game, ResourceManager};
 use sdl2;
 use sdl2::render::BlendMode;
-use sdl2::keyboard::{Keycode, Scancode};
+use sdl2::keyboard::Scancode;
 use sdl2::mouse::Mouse;
 use sdl2_image::{self, INIT_JPG, INIT_PNG};
 use sdl2_ttf;
 
-use common::{Message, State};
+use common::State;
 use editor::Editor;
 use level::Level;
 use schema::Schema;

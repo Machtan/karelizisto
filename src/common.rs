@@ -1,7 +1,5 @@
 use glorious::ResourceManager;
 
-use toolbox::Tool;
-
 #[derive(Debug, PartialEq, Eq)]
 pub enum Message {
     Up,

@@ -2,7 +2,7 @@ use std::cmp;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::PathBuf;
 
-use glorious::{Behavior, Color, Label, Renderer};
+use glorious::{Behavior, Color, Renderer};
 use sdl2::rect::Rect;
 
 use common::{Message, State};
@@ -193,7 +193,7 @@ impl Editor {
 impl<'a> Behavior<State<'a>> for Editor {
     type Message = Message;
 
-    fn handle(&mut self, state: &mut State<'a>, message: Message, queue: &mut Vec<Message>) {
+    fn handle(&mut self, _state: &mut State<'a>, message: Message, queue: &mut Vec<Message>) {
         use common::Message::*;
 
         trace!("{:?}", message);
