@@ -251,7 +251,7 @@ impl<'a> Behavior<State<'a>> for Editor {
                 renderer.fill_rect(view_rect).unwrap();
             }
         }
-        
+
         for (i, layer_name) in self.layers[..self.current_layer + 1].iter().enumerate() {
             if i == self.current_layer {
                 renderer.set_draw_color(Color(0xff, 0xff, 0xff, 0x77));
