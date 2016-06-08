@@ -3,15 +3,23 @@ use std::fs::File;
 use std::io::{self, Read};
 use std::path::PathBuf;
 
+use glorious::Color;
 use json;
 use serde::Deserialize;
 use toml;
+
+pub fn parse_color(text: &str) -> Color {
+    assert_eq!(6, text.len());
+    let rgb = u32::from_str_radix(text, 16).expect("could not parse color");
+    Color((rgb >> 16) as u8, (rgb >> 8) as u8, rgb as u8, 0xff)
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Schema {
     pub name: String,
     pub layers: Vec<String>,
     pub prefix: PathBuf,
+    pub colors: Vec<String>,
     pub tiles: BTreeMap<String, String>,
 }
 

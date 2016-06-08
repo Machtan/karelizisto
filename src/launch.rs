@@ -11,7 +11,7 @@ use sdl2_ttf;
 use common::State;
 use editor::Editor;
 use level::Level;
-use schema::Schema;
+use schema::{parse_color, Schema};
 
 pub fn start_editor<P>(schema: Schema, level: Level, save_to: Option<P>)
     where P: Into<PathBuf>
@@ -60,7 +60,8 @@ pub fn start_editor<P>(schema: Schema, level: Level, save_to: Option<P>)
     let mut state = State::new(resources);
 
     // Prepare the scene
-    let mut editor = Editor::new(schema.layers, schema.tiles, level, save_to);
+    let colors = schema.colors.into_iter().map(|s| parse_color(&s)).collect::<Vec<_>>();
+    let mut editor = Editor::new(schema.layers, schema.tiles, colors, level, save_to);
 
     // Set up input handling.
 
@@ -82,6 +83,9 @@ pub fn start_editor<P>(schema: Schema, level: Level, save_to: Option<P>)
     mapper.add(map_scan_pressed!(Scancode::X, NextLayer));
     mapper.add(map_scan_pressed!(Scancode::Q, PrevTile));
     mapper.add(map_scan_pressed!(Scancode::E, NextTile));
+
+    mapper.add(map_scan_pressed!(Scancode::Num1, PrevColor));
+    mapper.add(map_scan_pressed!(Scancode::Num2, NextColor));
 
     mapper.add(map_scan_pressed!(Scancode::Return, Save));
 

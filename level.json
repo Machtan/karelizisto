@@ -3,10 +3,10 @@
     "schema": "protoboard",
     "layers": {
         "terrain": {
-            "mountains": [[2, 3], [4, 5]]
+            "mountains": [[2, 3, 0], [4, 5, 0]]
         },
         "units": {
-            "raccoon": [[2, 3], [4, 4]]
+            "raccoon": [[2, 3, 0], [4, 4, 0]]
         }
     }
 }

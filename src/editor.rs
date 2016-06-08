@@ -6,7 +6,7 @@ use glorious::{Behavior, Color, Renderer};
 use sdl2::rect::Rect;
 
 use common::{Message, State};
-use level::{Layer, Level};
+use level::{Layer, Level, Point};
 use toolbox::Tool;
 
 #[derive(Debug, Clone)]
@@ -72,42 +72,46 @@ impl Viewport {
     }
 }
 
-fn insert_tile(layer: &mut Layer, tile: &str, pos: (i32, i32)) {
+fn insert_tile(layer: &mut Layer, tile: &str, pos: (i32, i32), color: u32) {
     remove_tile(layer, pos);
     if !layer.contains_key(tile) {
         layer.insert(tile.to_owned(), BTreeSet::new());
     }
-    layer.get_mut(tile).expect("unreachable; insert failed").insert(pos);
+    layer.get_mut(tile).expect("unreachable; insert failed").insert(Point(pos.0, pos.1, color));
 }
 
 fn remove_tile(layer: &mut Layer, pos: (i32, i32)) {
     for positions in layer.values_mut() {
-        positions.remove(&pos);
+        positions.remove(&Point(pos.0, pos.1, 0));
     }
 }
 
 #[derive(Debug, Clone)]
 pub struct Editor {
     layers: Vec<String>,
-    tile_textures: BTreeMap<String, String>,
     current_layer: usize,
+    tile_textures: BTreeMap<String, String>,
+    current_tile: usize,
+    tiles: Vec<String>,
+    colors: Vec<Color>,
+    current_color: usize,
     level: Level,
     viewport: Viewport,
     tool: Tool,
-    current_tile: usize,
-    tiles: Vec<String>,
     button_down: u8,
     prev_point: (i32, i32),
     save_to: Option<PathBuf>,
 }
 
 impl Editor {
-    pub fn new<P>(layers: Vec<String>,
-                  tile_textures: BTreeMap<String, String>,
-                  level: Level,
-                  save_to: Option<P>)
-                  -> Editor
-        where P: Into<PathBuf>
+    pub fn new<C, P>(layers: Vec<String>,
+                     tile_textures: BTreeMap<String, String>,
+                     colors: C,
+                     level: Level,
+                     save_to: Option<P>)
+                     -> Editor
+        where C: Into<Vec<Color>>,
+              P: Into<PathBuf>
     {
         if save_to.is_none() {
             warn!("The editor is in no-save mode!");
@@ -121,16 +125,18 @@ impl Editor {
         let tiles = tile_textures.keys().cloned().collect();
         Editor {
             layers: layers,
-            tile_textures: tile_textures,
             current_layer: num_layers - 1,
+            tile_textures: tile_textures,
+            tiles: tiles,
+            current_tile: 0,
+            colors: colors.into(),
+            current_color: 0,
             level: level,
             viewport: Viewport {
                 model: (0, 0, 20, 15),
                 view: (0, 600, 800, 0),
             },
             tool: Tool::Paint,
-            current_tile: 0,
-            tiles: tiles,
             button_down: 0,
             prev_point: (0, 0),
             save_to: save_to.map(|p| p.into()),
@@ -157,6 +163,16 @@ impl Editor {
         self.current_tile = (self.current_tile + self.tiles.len() - 1) % self.tiles.len();
     }
 
+    #[inline]
+    pub fn next_color(&mut self) {
+        self.current_color = (self.current_color + 1) % self.colors.len();
+    }
+
+    #[inline]
+    pub fn prev_color(&mut self) {
+        self.current_color = (self.current_color + self.colors.len() - 1) % self.colors.len();
+    }
+
     pub fn mouse_click(&mut self, view_coord: (i32, i32), button: u8) {
         self.prev_point = view_coord;
         self.button_down = button;
@@ -176,7 +192,7 @@ impl Editor {
         if erase {
             remove_tile(layer, pos);
         } else {
-            insert_tile(layer, tile, pos);
+            insert_tile(layer, tile, pos, self.current_color as u32);
         }
     }
 
@@ -207,6 +223,8 @@ impl<'a> Behavior<State<'a>> for Editor {
             PrevLayer => self.prev_layer(),
             NextTile => self.next_tile(),
             PrevTile => self.prev_tile(),
+            PrevColor => self.prev_color(),
+            NextColor => self.next_color(),
             Save => {
                 match self.save_to {
                     Some(ref path) => {
@@ -268,6 +286,12 @@ impl<'a> Behavior<State<'a>> for Editor {
                     let model_rect = Rect::new(pos.0 as i32, pos.1 as i32, 1, 1);
                     let view_rect = self.viewport.model_to_view_rect(model_rect);
                     renderer.copy(texture, None, Some(view_rect));
+                    renderer.set_draw_color(self.colors[pos.2 as usize].mul_alpha(0xbb));
+                    let hw = view_rect.width() / 2;
+                    let hh = view_rect.height() / 2;
+                    let color_rect =
+                        Rect::new(view_rect.x() + hw as i32, view_rect.y() + hh as i32, hw, hh);
+                    renderer.fill_rect(color_rect).unwrap();
                 }
             }
         }
@@ -279,5 +303,11 @@ impl<'a> Behavior<State<'a>> for Editor {
         let tile_name = &self.tiles[self.current_tile];
         let texture = &state.resources.texture(&self.tile_textures[tile_name]);
         renderer.copy(texture, None, Some(tile_rect));
+        renderer.set_draw_color(self.colors[self.current_color].mul_alpha(0xbb));
+        let hw = tile_rect.width() / 2;
+        let hh = tile_rect.height() / 2;
+        let color_rect =
+            Rect::new(tile_rect.x() + hw as i32, tile_rect.y() + hh as i32, hw, hh);
+        renderer.fill_rect(color_rect).unwrap();
     }
 }

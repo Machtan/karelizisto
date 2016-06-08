@@ -13,6 +13,8 @@ pub enum Message {
     PrevLayer,
     NextTile,
     PrevTile,
+    NextColor,
+    PrevColor,
     Save,
 
     LeftClickAt(i32, i32),

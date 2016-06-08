@@ -9,9 +9,9 @@ dependencies = [
  "sdl2 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_image 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2_ttf 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde 0.7.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 0.7.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_macros 0.7.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_macros 0.7.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.1.30 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -55,7 +55,7 @@ dependencies = [
 [[package]]
 name = "glorious"
 version = "0.2.0"
-source = "git+https://github.com/Machtan/glorious#77fc39283ea5e21b3336504d0a5975c2f394af27"
+source = "git+https://github.com/Machtan/glorious#1285c810f6fa331c28e176c1406c75b2166a94c8"
 dependencies = [
  "ref_filter_map 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2 0.19.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -260,12 +260,12 @@ dependencies = [
 
 [[package]]
 name = "serde"
-version = "0.7.7"
+version = "0.7.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "serde_codegen"
-version = "0.7.7"
+version = "0.7.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "aster 0.17.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -279,15 +279,15 @@ version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "num-traits 0.1.32 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde 0.7.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 0.7.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "serde_macros"
-version = "0.7.7"
+version = "0.7.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "serde_codegen 0.7.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_codegen 0.7.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -312,7 +312,7 @@ name = "toml"
 version = "0.1.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "serde 0.7.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 0.7.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
