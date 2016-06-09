@@ -20,15 +20,18 @@ extern crate sdl2_ttf;
 
 use std::env;
 
+use info::Schema;
 use launch::start_editor;
 use level::Level;
-use schema::Schema;
+use load::load_toml;
 
 mod common;
 mod editor;
+mod info;
 mod launch;
 mod level;
-mod schema;
+mod load;
+mod spec;
 mod toolbox;
 
 fn main() {
@@ -52,7 +55,10 @@ fn main() {
 
     // Main
 
-    let schema = Schema::load("schema.toml").unwrap();
+    let schema = match load_toml("schema.toml", |m| warn!("{}", m)) {
+        Ok(spec) => Schema::from_spec(spec).expect("could not validate schema"),
+        Err(err) => panic!("could not load schema: {}", err),
+    };
     let level = Level::load("level.json").unwrap();
     assert!(level.schema == schema.name);
 

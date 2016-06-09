@@ -10,8 +10,8 @@ use sdl2_ttf;
 
 use common::State;
 use editor::Editor;
+use info::Schema;
 use level::Level;
-use schema::{parse_color, Schema};
 
 pub fn start_editor<P>(schema: Schema, level: Level, save_to: Option<P>)
     where P: Into<PathBuf>
@@ -60,8 +60,7 @@ pub fn start_editor<P>(schema: Schema, level: Level, save_to: Option<P>)
     let mut state = State::new(resources);
 
     // Prepare the scene
-    let colors = schema.colors.into_iter().map(|s| parse_color(&s)).collect::<Vec<_>>();
-    let mut editor = Editor::new(schema.layers, schema.tiles, colors, level, save_to);
+    let mut editor = Editor::new(schema.layers, schema.tiles, schema.colors, level, save_to);
 
     // Set up input handling.
 

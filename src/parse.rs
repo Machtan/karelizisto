@@ -53,20 +53,13 @@ pub fn parse<F>(continuation: F)
                 info!("{}", USAGE);
                 return;
             }
-            Ok(Positional("schema", value)) => {
-                schema = value;
-            }
-            Ok(Option("load", value)) => {
-                load = Some(value);
-            }
-            Ok(Option("save", value)) => {
-                save = Some(value);
-            }
-            Ok(Option("edit", value)) => {
-                edit = Some(value);
-            }
+            Ok(Positional("schema", value)) => schema = value,
+            Ok(Option("load", value)) => load = Some(value),
+            Ok(Option("save", value)) => save = Some(value),
+            Ok(Option("edit", value)) => edit = Some(value),
             Ok(Switch("help")) => {
-                return info!("{}\n\n{}", USAGE, HELP);
+                info!("{}\n\n{}", USAGE, HELP);
+                return None;
             }
             Ok(Switch("version")) => {
                 return info!("{}", env!("CARGO_PKG_VERSION"));

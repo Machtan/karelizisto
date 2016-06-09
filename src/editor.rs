@@ -1,11 +1,12 @@
 use std::cmp;
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeSet, HashMap};
 use std::path::PathBuf;
 
 use glorious::{Behavior, Color, Renderer};
 use sdl2::rect::Rect;
 
 use common::{Message, State};
+use info::SpriteInfo;
 use level::{Layer, Level, Point};
 use toolbox::Tool;
 
@@ -90,7 +91,7 @@ fn remove_tile(layer: &mut Layer, pos: (i32, i32)) {
 pub struct Editor {
     layers: Vec<String>,
     current_layer: usize,
-    tile_textures: BTreeMap<String, String>,
+    tile_sprites: HashMap<String, SpriteInfo>,
     current_tile: usize,
     tiles: Vec<String>,
     colors: Vec<Color>,
@@ -105,7 +106,7 @@ pub struct Editor {
 
 impl Editor {
     pub fn new<C, P>(layers: Vec<String>,
-                     tile_textures: BTreeMap<String, String>,
+                     tile_sprites: HashMap<String, SpriteInfo>,
                      colors: C,
                      level: Level,
                      save_to: Option<P>)
@@ -122,11 +123,12 @@ impl Editor {
                     layer);
         }
         let num_layers = layers.len();
-        let tiles = tile_textures.keys().cloned().collect();
+        let mut tiles = tile_sprites.keys().cloned().collect::<Vec<_>>();
+        tiles.sort();
         Editor {
             layers: layers,
             current_layer: num_layers - 1,
-            tile_textures: tile_textures,
+            tile_sprites: tile_sprites,
             tiles: tiles,
             current_tile: 0,
             colors: colors.into(),
@@ -280,12 +282,11 @@ impl<'a> Behavior<State<'a>> for Editor {
                 None => continue,
             };
             for (tile, positions) in layer {
-                let path = &self.tile_textures[tile];
-                let texture = &state.resources.texture(path);
+                let sprite = state.sprite(&self.tile_sprites[tile]);
                 for pos in positions {
                     let model_rect = Rect::new(pos.0 as i32, pos.1 as i32, 1, 1);
                     let view_rect = self.viewport.model_to_view_rect(model_rect);
-                    renderer.copy(texture, None, Some(view_rect));
+                    sprite.render_rect(renderer, view_rect);
                     renderer.set_draw_color(self.colors[pos.2 as usize].mul_alpha(0xbb));
                     let hw = view_rect.width() / 2;
                     let hh = view_rect.height() / 2;
@@ -301,13 +302,12 @@ impl<'a> Behavior<State<'a>> for Editor {
         renderer.fill_rect(info_box).unwrap();
         let tile_rect = Rect::new(708, 28, 64, 64);
         let tile_name = &self.tiles[self.current_tile];
-        let texture = &state.resources.texture(&self.tile_textures[tile_name]);
-        renderer.copy(texture, None, Some(tile_rect));
+        let sprite = state.sprite(&self.tile_sprites[tile_name]);
+        sprite.render_rect(renderer, tile_rect);
         renderer.set_draw_color(self.colors[self.current_color].mul_alpha(0xbb));
         let hw = tile_rect.width() / 2;
         let hh = tile_rect.height() / 2;
-        let color_rect =
-            Rect::new(tile_rect.x() + hw as i32, tile_rect.y() + hh as i32, hw, hh);
+        let color_rect = Rect::new(tile_rect.x() + hw as i32, tile_rect.y() + hh as i32, hw, hh);
         renderer.fill_rect(color_rect).unwrap();
     }
 }

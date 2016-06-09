@@ -1,5 +1,5 @@
 use std::cmp::{Ord, Ordering, PartialOrd};
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeSet, HashMap};
 use std::fs::File;
 use std::path::Path;
 
@@ -31,13 +31,13 @@ impl Ord for Point {
     }
 }
 
-pub type Layer = BTreeMap<String, BTreeSet<Point>>;
+pub type Layer = HashMap<String, BTreeSet<Point>>;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Level {
     pub name: String,
     pub schema: String,
-    pub layers: BTreeMap<String, Layer>,
+    pub layers: HashMap<String, Layer>,
 }
 
 impl Level {
